@@ -12,7 +12,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #111827;
   color: #f3f4f6;
-  padding-top: 80px;
+  padding-top: 120px;
   padding-left: 20px;
   padding-right: 20px;
   opacity: 0;
@@ -44,6 +44,24 @@ nav.navbar a {
 }
 nav.navbar a:hover {
   color: #60a5fa;
+}
+.contact-info {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.contact-info a {
+  margin: 0 10px;
+  color: #60a5fa;
+  text-decoration: none;
+}
+.contact-info a:hover {
+  text-decoration: underline;
+}
+.contact-info img {
+  vertical-align: middle;
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
 }
 h1, h2 {
   text-align: center;
@@ -135,12 +153,16 @@ section {
 <li><a href="#resume">Resume</a></li>
 <li><a href="#certifications">Certifications</a></li>
 <li><a href="#projects">Projects</a></li>
-<li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
 <section id="home">
 <h1>Devinn Houston</h1>
+<div class="contact-info">
+  <a href="mailto:devinnhouston@gmail.com"><img src="gmail-icon.png" alt="Gmail">devinnhouston@gmail.com</a>
+  <a href="tel:+19168462868"><img src="phone-icon.png" alt="Phone">(916) 846-2868</a>
+  <a href="https://linkedin.com/in/devinn-houston" target="_blank"><img src="linkedin-icon.png" alt="LinkedIn">linkedin.com/in/devinn-houston</a>
+</div>
 <p style="text-align:center; color:#9ca3af;">Salesforce Admin | IT Support | Python Development</p>
 </section>
 
@@ -204,13 +226,6 @@ Features include:
 <div class="progress-indicator" id="serviceProgress">1 / 5</div>
 </div>
 </div>
-</section>
-
-<section id="contact">
-<h2>Contact</h2>
-<p>Email: <a href="mailto:devinnhouston@gmail.com">devinnhouston@gmail.com</a></p>
-<p>Phone: <a href="tel:+19168462868">(916) 846-2868</a></p>
-<p>LinkedIn: <a href="https://linkedin.com/in/devinn-houston" target="_blank" rel="noopener noreferrer">linkedin.com/in/devinn-houston</a></p>
 </section>
 
 <button class="back-to-top" id="backToTop">Top</button>
