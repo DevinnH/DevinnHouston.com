@@ -168,7 +168,62 @@
   <button class="back-to-top" id="backToTop">Top</button>
 
   <script>
-    /* (scripts remain unchanged) */
+    window.addEventListener('load', () => {
+      document.body.style.opacity = '1';
+    });
+
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const onboardingImages = [
+      "Employee_Onboarding_Flow_Screenshot1.png",
+      "Employee_Onboarding_Flow_Screenshot2.png",
+      "Employee_Onboarding_Flow_Screenshot3.png",
+      "Employee_Onboarding_Flow_Screenshot4.png",
+      "Employee_Onboarding_Flow_Screenshot5.png"
+    ];
+    const serviceImages = [
+      "Service_Request_Screenshot1.png",
+      "Service_Request_Screenshot2.png",
+      "Service_Request_Screenshot3.png",
+      "Service_Request_Screenshot4.png",
+      "Service_Request_Screenshot5.png"
+    ];
+
+    const indices = {
+      onboardingGallery: 0,
+      serviceGallery: 0
+    };
+
+    function updateProgress(galleryId, images) {
+      const progress = document.getElementById(galleryId === 'onboardingGallery' ? 'onboardingProgress' : 'serviceProgress');
+      progress.textContent = `${indices[galleryId] + 1} / ${images.length}`;
+    }
+
+    function showImage(galleryId, images, index) {
+      const gallery = document.getElementById(galleryId);
+      const img = gallery.querySelector('img');
+      img.src = images[index];
+      updateProgress(galleryId, images);
+    }
+
+    function nextSlide(galleryId, images) {
+      indices[galleryId] = (indices[galleryId] + 1) % images.length;
+      showImage(galleryId, images, indices[galleryId]);
+    }
+
+    function prevSlide(galleryId, images) {
+      indices[galleryId] = (indices[galleryId] - 1 + images.length) % images.length;
+      showImage(galleryId, images, indices[galleryId]);
+    }
+
+    setInterval(() => nextSlide('onboardingGallery', onboardingImages), 5000);
+    setInterval(() => nextSlide('serviceGallery', serviceImages), 5000);
   </script>
 </body>
 </html>
