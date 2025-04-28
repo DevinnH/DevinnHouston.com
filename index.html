@@ -100,7 +100,8 @@ section {
   width: 100%;
   border: 1px solid #374151;
   border-radius: 0.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  opacity: 1;
 }
 .gallery img:hover {
   transform: scale(1.03);
@@ -189,6 +190,7 @@ section {
 
 <section id="projects">
 <h2>Projects</h2>
+
 <h3>💼 Salesforce: Automated Employee Onboarding Flow</h3>
 <p>
 Built a full employee onboarding automation inside Salesforce CRM.
@@ -224,6 +226,28 @@ Features include:
 <button onclick="prevSlide('serviceGallery', serviceImages)">Prev</button>
 <button onclick="nextSlide('serviceGallery', serviceImages)">Next</button>
 <div class="progress-indicator" id="serviceProgress">1 / 5</div>
+</div>
+</div>
+
+<h3>🚨 Salesforce: SLA Breach Alert Automation</h3>
+<p>
+Designed and deployed an SLA breach detection and escalation automation inside Salesforce CRM.
+Features include:
+<ul>
+<li>Monitors open Service Requests daily with a Scheduled-Triggered Flow.</li>
+<li>Detects SLA breaches based on custom SLA Deadline field and Current Date/Time comparison.</li>
+<li>Sends dynamic escalation emails to the assigned technician or manager when deadlines are missed.</li>
+<li>Ensures professional system email sending via Org-Wide Email Address setup.</li>
+<li>Process Automation User configuration to avoid email failure issues.</li>
+<li>Full flow testing and debugging with live validation.</li>
+</ul>
+</p>
+<div class="gallery" id="slaGallery">
+<img src="SLA_Flow_Screenshot1.png" alt="SLA Flow Screenshot 1">
+<div class="gallery-controls">
+<button onclick="prevSlide('slaGallery', slaImages)">Prev</button>
+<button onclick="nextSlide('slaGallery', slaImages)">Next</button>
+<div class="progress-indicator" id="slaProgress">1 / 4</div>
 </div>
 </div>
 </section>
@@ -269,13 +293,25 @@ const serviceImages = [
   "Service_Request_Screenshot5.png"
 ];
 
+const slaImages = [
+  "SLA_Flow_Screenshot1.png",
+  "SLA_Flow_Screenshot2.png",
+  "SLA_Flow_Screenshot3.png",
+  "SLA_Flow_Screenshot4.png"
+];
+
 const indices = {
   onboardingGallery: 0,
-  serviceGallery: 0
+  serviceGallery: 0,
+  slaGallery: 0
 };
 
 function updateProgress(galleryId, images) {
-  const progress = document.getElementById(galleryId === 'onboardingGallery' ? 'onboardingProgress' : 'serviceProgress');
+  const progress = document.getElementById(
+    galleryId === 'onboardingGallery' ? 'onboardingProgress' :
+    galleryId === 'serviceGallery' ? 'serviceProgress' :
+    'slaProgress'
+  );
   if (progress) {
     progress.textContent = `${indices[galleryId] + 1} / ${images.length}`;
   }
@@ -286,8 +322,13 @@ function showImage(galleryId, images, index) {
   if (gallery) {
     const img = gallery.querySelector('img');
     if (img) {
-      img.src = images[index];
-      updateProgress(galleryId, images);
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = images[index];
+        img.alt = `Screenshot ${index + 1}`;
+        img.style.opacity = '1';
+        updateProgress(galleryId, images);
+      }, 200);
     }
   }
 }
@@ -308,6 +349,9 @@ setInterval(() => {
   }
   if (document.getElementById('serviceGallery')) {
     nextSlide('serviceGallery', serviceImages);
+  }
+  if (document.getElementById('slaGallery')) {
+    nextSlide('slaGallery', slaImages);
   }
 }, 5000);
 </script>
