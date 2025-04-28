@@ -51,16 +51,37 @@
       max-width: 900px;
       margin: auto;
     }
-    img {
+    .gallery {
+      position: relative;
       max-width: 100%;
-      margin-top: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .gallery img {
+      width: 100%;
       border: 1px solid #374151;
       border-radius: 0.5rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    img:hover {
+    .gallery img:hover {
       transform: scale(1.03);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+    .gallery-controls {
+      margin-top: 10px;
+    }
+    .gallery-controls button {
+      background: #60a5fa;
+      border: none;
+      color: #111827;
+      padding: 8px 12px;
+      margin: 0 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .gallery-controls button:hover {
+      background: #3b82f6;
     }
     .back-to-top {
       position: fixed;
@@ -87,7 +108,7 @@
 
     <h2>About Me</h2>
     <p>
-      I’m Devinn Houston, a Salesforce Certified Administrator and IT Support Specialist with over a decade of experience supporting users, systems, and business operations. My background spans military-grade IT, K–12 field support, and CRM administration - blending hands-on technical skills with problem-solving that drives results.
+      I’m Devinn Houston, a Salesforce Certified Administrator and IT Support Specialist with over a decade of experience supporting users, systems, and business operations.
     </p>
 
     <h2>Resume</h2>
@@ -106,45 +127,23 @@
     <ul>
       <li>
         <strong>💼 Salesforce: Automated Employee Onboarding Flow</strong><br>
-        Built a record-triggered Flow that streamlines the employee onboarding process in Salesforce.
-        <div>
-          <a href="Employee_Onboarding_Flow_Screenshot1.png" target="_blank">
-            <img src="Employee_Onboarding_Flow_Screenshot1.png" alt="Flow Overview Screenshot" />
-          </a>
-          <a href="Employee_Onboarding_Flow_Screenshot2.png" target="_blank">
-            <img src="Employee_Onboarding_Flow_Screenshot2.png" alt="Task Creation Screenshot" />
-          </a>
-          <a href="Employee_Onboarding_Flow_Screenshot3.png" target="_blank">
-            <img src="Employee_Onboarding_Flow_Screenshot3.png" alt="Email Action Screenshot" />
-          </a>
-          <a href="Employee_Onboarding_Flow_Screenshot4.png" target="_blank">
-            <img src="Employee_Onboarding_Flow_Screenshot4.png" alt="Status Update Screenshot" />
-          </a>
-          <a href="Employee_Onboarding_Flow_Screenshot5.png" target="_blank">
-            <img src="Employee_Onboarding_Flow_Screenshot5.png" alt="Test Record Screenshot" />
-          </a>
+        <div class="gallery" id="onboardingGallery">
+          <img src="Employee_Onboarding_Flow_Screenshot1.png" alt="Flow Overview Screenshot">
+          <div class="gallery-controls">
+            <button onclick="prevSlide('onboardingGallery', onboardingImages)">Prev</button>
+            <button onclick="nextSlide('onboardingGallery', onboardingImages)">Next</button>
+          </div>
         </div>
       </li>
 
       <li>
         <strong>🛠 Salesforce: IT Service Request App</strong><br>
-        Designed and built a complete IT Service Request application in Salesforce.
-        <div>
-          <a href="Service_Request_Screenshot1.png" target="_blank">
-            <img src="Service_Request_Screenshot1.png" alt="Service Request App Screenshot 1" />
-          </a>
-          <a href="Service_Request_Screenshot2.png" target="_blank">
-            <img src="Service_Request_Screenshot2.png" alt="Service Request App Screenshot 2" />
-          </a>
-          <a href="Service_Request_Screenshot3.png" target="_blank">
-            <img src="Service_Request_Screenshot3.png" alt="Service Request App Screenshot 3" />
-          </a>
-          <a href="Service_Request_Screenshot4.png" target="_blank">
-            <img src="Service_Request_Screenshot4.png" alt="Service Request App Screenshot 4" />
-          </a>
-          <a href="Service_Request_Screenshot5.png" target="_blank">
-            <img src="Service_Request_Screenshot5.png" alt="Service Request App Screenshot 5" />
-          </a>
+        <div class="gallery" id="serviceGallery">
+          <img src="Service_Request_Screenshot1.png" alt="Service Request App Screenshot 1">
+          <div class="gallery-controls">
+            <button onclick="prevSlide('serviceGallery', serviceImages)">Prev</button>
+            <button onclick="nextSlide('serviceGallery', serviceImages)">Next</button>
+          </div>
         </div>
       </li>
     </ul>
@@ -158,25 +157,55 @@
   <button class="back-to-top" id="backToTop">Top</button>
 
   <script>
-    // Fade in body on load
     window.addEventListener('load', () => {
       document.body.style.opacity = '1';
     });
 
-    // Show "Back to Top" button
     const backToTop = document.getElementById('backToTop');
-
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        backToTop.style.display = 'block';
-      } else {
-        backToTop.style.display = 'none';
-      }
+      backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
     });
-
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    const onboardingImages = [
+      "Employee_Onboarding_Flow_Screenshot1.png",
+      "Employee_Onboarding_Flow_Screenshot2.png",
+      "Employee_Onboarding_Flow_Screenshot3.png",
+      "Employee_Onboarding_Flow_Screenshot4.png",
+      "Employee_Onboarding_Flow_Screenshot5.png"
+    ];
+    const serviceImages = [
+      "Service_Request_Screenshot1.png",
+      "Service_Request_Screenshot2.png",
+      "Service_Request_Screenshot3.png",
+      "Service_Request_Screenshot4.png",
+      "Service_Request_Screenshot5.png"
+    ];
+
+    const indices = {
+      onboardingGallery: 0,
+      serviceGallery: 0
+    };
+
+    function showImage(galleryId, images, index) {
+      const gallery = document.getElementById(galleryId);
+      gallery.querySelector('img').src = images[index];
+    }
+
+    function nextSlide(galleryId, images) {
+      indices[galleryId] = (indices[galleryId] + 1) % images.length;
+      showImage(galleryId, images, indices[galleryId]);
+    }
+
+    function prevSlide(galleryId, images) {
+      indices[galleryId] = (indices[galleryId] - 1 + images.length) % images.length;
+      showImage(galleryId, images, indices[galleryId]);
+    }
+
+    setInterval(() => nextSlide('onboardingGallery', onboardingImages), 3000);
+    setInterval(() => nextSlide('serviceGallery', serviceImages), 3000);
   </script>
 </body>
 </html>
